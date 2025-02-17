@@ -3,11 +3,17 @@
     import 'swiper/css';
     import {onMount} from "svelte";
 
+    let page = 0;
+    if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        page = parseInt(urlParams.get('page') ?? '0');
+    }
+
     onMount(() => {
         const swiper = new Swiper('.swiper', {
             direction: "vertical",
             autoHeight: true,
-
+            initialSlide: page,
             on: {
                 reachEnd: (sw) => {
                     document.location.href = '/road/beginner/001-what-is-a-function';

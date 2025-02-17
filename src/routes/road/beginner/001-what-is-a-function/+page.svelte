@@ -3,14 +3,20 @@
     import 'swiper/css';
     import {onMount} from "svelte";
 
+    let page = 1;
+    if (typeof window !== 'undefined') {
+        const urlParams = new URLSearchParams(window.location.search);
+        page = parseInt(urlParams.get('page') ?? '1');
+    }
+
     onMount(() => {
         const swiper = new Swiper('.swiper', {
             direction: "vertical",
             autoHeight: true,
-            initialSlide: 1,
+            initialSlide: page,
             on: {
                 reachBeginning: (sw) => {
-                    document.location.href = '/road/beginner/000-what-is-a-variable';
+                    document.location.href = '/road/beginner/000-what-is-a-variable?page=2';
                 },
                 reachEnd: (sw) => {
                     //document.location.href = '/road/beginner/001-what-is-a-function';
