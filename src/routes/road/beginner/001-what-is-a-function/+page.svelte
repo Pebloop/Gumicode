@@ -12,6 +12,7 @@
     onMount(() => {
         const swiper = new Swiper('.swiper', {
             direction: "vertical",
+            height: window.innerHeight - 73,
             autoHeight: true,
             initialSlide: page,
             on: {
