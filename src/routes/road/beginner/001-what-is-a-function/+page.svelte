@@ -13,7 +13,7 @@
                     document.location.href = '/road/beginner/000-what-is-a-variable';
                 },
                 reachEnd: (sw) => {
-                    document.location.href = '/road/beginner/001-what-is-a-function';
+                    //document.location.href = '/road/beginner/001-what-is-a-function';
                 }
             }
 
