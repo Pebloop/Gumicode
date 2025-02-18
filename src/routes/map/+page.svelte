@@ -11,6 +11,8 @@
 
     let x = $state(0);
     let y = $state(0);
+    let canvasWidth = $state(100);
+    let canvasHeight = $state(100);
     let currentRoom : Room | null = $state(null);
 
     const rooms: Room[] = [
@@ -20,21 +22,12 @@
     onMount(() => {
         const canvas = document.getElementById('map') as HTMLCanvasElement;
 
-        canvas.onresize = (event: UIEvent) => {
-            console.log(event.target);
-            draw();
-        };
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+        const canvasResizeObserver = new ResizeObserver(() => {
+            canvasWidth = canvas.clientWidth;
+            canvasHeight = canvas.clientHeight;
             draw();
         });
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        x = -canvas.width / 2;
-        y = -canvas.height / 2;
+        canvasResizeObserver.observe(canvas);
 
         // with keyboard
         window.addEventListener('keydown', (event) => {
@@ -108,26 +101,8 @@
 
                 if (isInside) {
                     isInARoom = true;
-                    const ctx = canvas.getContext('2d');
-
-                    if (ctx) {
-
-                        for (const rect of room.rects) {
-                            ctx.fillStyle = 'blue';
-                            ctx.fillRect(rect.x - x, rect.y - y, rect.width, rect.height);
-                        }
-
-                        ctx.fillStyle = 'white';
-                        ctx.font = '12px Arial';
-                        const roomNameWidth = ctx.measureText(room.name).width;
-                        const roomNameX = room.rects[0].x - x + room.rects[0].width / 2 - roomNameWidth / 2;
-                        const roomNameY = room.rects[0].y - y + room.rects[0].height / 2;
-                        ctx.fillText(room.name, roomNameX, roomNameY);
-
-                        canvas.style.cursor = 'pointer';
-
-                        currentRoom = room;
-                    }
+                    canvas.style.cursor = 'pointer';
+                    currentRoom = room;
                 }
             }
 
@@ -145,6 +120,7 @@
         let hasMovedTouch = false;
 
         window.addEventListener('touchstart', (event) => {
+
             isTouching = true;
             lastTouchX = event.touches[0].clientX;
             lastTouchY = event.touches[0].clientY;
@@ -189,22 +165,6 @@
 
                         if (isInside) {
                             currentRoom = room;
-                            // draw room
-                            const ctx = canvas.getContext('2d');
-
-                            if (ctx) {
-                                for (const rect of room.rects) {
-                                    ctx.fillStyle = 'blue';
-                                    ctx.fillRect(rect.x, rect.y, rect.width, rect.height);
-                                }
-
-                                ctx.fillStyle = 'white';
-                                ctx.font = '12px Arial';
-                                const roomNameWidth = ctx.measureText(room.name).width;
-                                const roomNameX = room.rects[0].x + room.rects[0].width / 2 - roomNameWidth / 2;
-                                const roomNameY = room.rects[0].y + room.rects[0].height / 2;
-                                ctx.fillText(room.name, roomNameX, roomNameY);
-                            }
                         }
 
                     }
@@ -231,6 +191,10 @@
             }
         });
 
+        x = -canvas.clientWidth / 2;
+        y = -canvas.clientHeight / 2;
+        draw();
+        setInterval(draw, 100);
     });
 
     function draw() {
@@ -246,8 +210,15 @@
             return;
         }
 
+        canvas.width = canvasWidth
+        canvas.height = canvasHeight
+
+        ctx.save();
+
         // clear canvas
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        //ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = 'white';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
 
         // create image from file
         const image = new Image();
@@ -269,12 +240,14 @@
             ctx.fillText(currentRoom.name, roomNameX, roomNameY);
         }
 
+        ctx.restore();
     }
 
-    if (typeof window !== 'undefined') {
+    // draw every 100ms
 
-        draw();
-    }
+
 </script>
 
-<canvas id="map" width="10" height="10"></canvas>
+<canvas id="map" class="w-screen h-screen block">
+    Your browser does not support the HTML5 canvas tag.
+</canvas>
