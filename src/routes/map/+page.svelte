@@ -9,8 +9,8 @@
 
     const mapSize = 0.3;
 
-    let x = $state(-250);
-    let y = $state(-150);
+    let x = $state(0);
+    let y = $state(0);
     let currentRoom : Room | null = $state(null);
 
     const rooms: Room[] = [
@@ -33,6 +33,8 @@
 
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        x = -canvas.width / 2;
+        y = -canvas.height / 2;
 
         // with keyboard
         window.addEventListener('keydown', (event) => {
@@ -229,11 +231,6 @@
             }
         });
 
-        // draw once after 10ms
-        setTimeout(() => {
-            draw();
-        }, 10);
-
     });
 
     function draw() {
@@ -257,6 +254,21 @@
         image.src = "/gumicode_map.png";
         ctx.drawImage(image, -x, -y, image.width * mapSize, image.height * mapSize);
 
+        // draw current room
+        if (currentRoom) {
+            for (const rect of currentRoom.rects) {
+                ctx.fillStyle = 'blue';
+                ctx.fillRect(rect.x - x, rect.y - y, rect.width, rect.height);
+            }
+
+            ctx.fillStyle = 'white';
+            ctx.font = '12px Arial';
+            const roomNameWidth = ctx.measureText(currentRoom.name).width;
+            const roomNameX = currentRoom.rects[0].x - x + currentRoom.rects[0].width / 2 - roomNameWidth / 2;
+            const roomNameY = currentRoom.rects[0].y - y + currentRoom.rects[0].height / 2;
+            ctx.fillText(currentRoom.name, roomNameX, roomNameY);
+        }
+
     }
 
     if (typeof window !== 'undefined') {
@@ -265,4 +277,4 @@
     }
 </script>
 
-<canvas id="map" width="800" height="600"></canvas>
+<canvas id="map" width="10" height="10"></canvas>
