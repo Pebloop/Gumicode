@@ -131,7 +131,7 @@
 
             if (!isInARoom) {
                 canvas.style.cursor = 'default';
-                canvas.onclick = null;
+                currentRoom = null;
             }
 
         });
