@@ -25,12 +25,11 @@
         const canvasResizeObserver = new ResizeObserver(() => {
             canvasWidth = canvas.clientWidth;
             canvasHeight = canvas.clientHeight;
-            draw();
         });
         canvasResizeObserver.observe(canvas);
 
         // with keyboard
-        window.addEventListener('keydown', (event) => {
+        window.onkeydown = (event) => {
             switch (event.key) {
                 case 'ArrowUp':
                     y -= 10;
@@ -46,7 +45,7 @@
                     break;
             }
             draw();
-        });
+        };
 
         // with mouse
         let isDragging = false;
@@ -54,13 +53,13 @@
         let lastY = 0;
         let hasMoved = false;
 
-        window.addEventListener('mousedown', (event: any) => {
+        canvas.onmousedown = (event: any) => {
             isDragging = true;
             lastX = event.clientX;
             lastY = event.clientY;
-        });
+        };
 
-        window.addEventListener('mouseup', (event: any) => {
+        canvas.onmouseup = (event: any) => {
             if (!hasMoved) {
                 // if click on a room
                 if (currentRoom && event.sourceCapabilities.firesTouchEvents == false) {
@@ -70,9 +69,9 @@
 
             isDragging = false;
             hasMoved = false;
-        });
+        };
 
-        window.addEventListener('mousemove', (event: any) => {
+        canvas.onmousemove = (event: any) => {
             if (isDragging) {
                 x -= event.clientX - lastX;
                 y -= event.clientY - lastY;
@@ -84,8 +83,6 @@
                 lastX = event.clientX;
                 lastY = event.clientY;
             }
-
-            draw();
 
             // if mouse hover a room display the name
             let isInARoom = false;
@@ -111,7 +108,8 @@
                 currentRoom = null;
             }
 
-        });
+            draw();
+        };
 
         // with touch
         let isTouching = false;
@@ -119,14 +117,14 @@
         let lastTouchY = 0;
         let hasMovedTouch = false;
 
-        window.addEventListener('touchstart', (event) => {
+        canvas.ontouchstart = (event) => {
 
             isTouching = true;
             lastTouchX = event.touches[0].clientX;
             lastTouchY = event.touches[0].clientY;
-        });
+        };
 
-        window.addEventListener('touchend', () => {
+        canvas.ontouchend = () => {
             console.log('touchend');
             if (!hasMovedTouch) {
                 // if click on a room
@@ -147,8 +145,6 @@
 
                 } else {
                     // if click on the map
-                    const canvas = document.getElementById('map') as HTMLCanvasElement;
-                    const rect = canvas.getBoundingClientRect();
                     const currentX = lastTouchX - x;
                     const currentY = lastTouchY - y;
 
@@ -173,10 +169,10 @@
 
             isTouching = false;
             hasMovedTouch = false;
+            draw();
+        };
 
-        });
-
-        window.addEventListener('touchmove', (event) => {
+        canvas.ontouchmove = (event) => {
             if (isTouching) {
                 x -= event.touches[0].clientX - lastTouchX;
                 y -= event.touches[0].clientY - lastTouchY;
@@ -189,7 +185,7 @@
                 lastTouchY = event.touches[0].clientY;
                 draw();
             }
-        });
+        };
 
         x = -canvas.clientWidth / 2;
         y = -canvas.clientHeight / 2;
@@ -210,8 +206,10 @@
             return;
         }
 
-        canvas.width = canvasWidth
-        canvas.height = canvasHeight
+        if (canvasWidth != canvas.width || canvasHeight != canvas.height) {
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+        }
 
         ctx.save();
 
