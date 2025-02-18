@@ -209,6 +209,7 @@
             }
 
             isTouching = false;
+            hasMovedTouch = false;
 
         });
 
@@ -216,6 +217,11 @@
             if (isTouching) {
                 x -= event.touches[0].clientX - lastTouchX;
                 y -= event.touches[0].clientY - lastTouchY;
+
+                if (event.touches[0].clientX - lastTouchX > 5 || event.touches[0].clientY - lastTouchY > 5 || event.touches[0].clientX - lastTouchX < -5 || event.touches[0].clientY - lastTouchY < -5) {
+                    hasMovedTouch = true;
+                }
+
                 lastTouchX = event.touches[0].clientX;
                 lastTouchY = event.touches[0].clientY;
                 draw();
