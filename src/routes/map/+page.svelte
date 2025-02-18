@@ -8,6 +8,11 @@
     }
 
     const mapSize = 0.3;
+    const rooms: Room[] = [
+        { rects: [{x: 163, y: 35, width: 280, height: 157}], name: 'code basics', url: "/road/basics"},
+    ];
+
+    let canvas: HTMLCanvasElement;
 
     let x = $state(0);
     let y = $state(0);
@@ -15,12 +20,15 @@
     let canvasHeight = $state(100);
     let currentRoom : Room | null = $state(null);
 
-    const rooms: Room[] = [
-        { rects: [{x: 163, y: 35, width: 280, height: 157}], name: 'code basics', url: "/road/basics"},
-    ];
+    $effect(() => {
+        if (canvasWidth || canvasHeight) {
+            draw(document.getElementById('map') as HTMLCanvasElement);
+        }
+    });
 
     onMount(() => {
-        const canvas = document.getElementById('map') as HTMLCanvasElement;
+        // get all canvases with the class map
+        canvas = document.getElementById('map') as HTMLCanvasElement;
 
         const canvasResizeObserver = new ResizeObserver(() => {
             canvasWidth = canvas.clientWidth;
@@ -44,7 +52,7 @@
                     x += 10;
                     break;
             }
-            draw();
+            draw(canvas);
         };
 
         // with mouse
@@ -108,7 +116,7 @@
                 currentRoom = null;
             }
 
-            draw();
+            draw(canvas);
         };
 
         // with touch
@@ -169,7 +177,7 @@
 
             isTouching = false;
             hasMovedTouch = false;
-            draw();
+            draw(canvas);
         };
 
         canvas.ontouchmove = (event) => {
@@ -183,19 +191,19 @@
 
                 lastTouchX = event.touches[0].clientX;
                 lastTouchY = event.touches[0].clientY;
-                draw();
+                draw(canvas);
             }
         };
 
         x = -canvas.clientWidth / 2;
         y = -canvas.clientHeight / 2;
-        draw();
-        setInterval(draw, 100);
+        draw(canvas);
+        setInterval(() => {
+            draw(canvas);
+        }, 1000 / 60);
     });
 
-    function draw() {
-        const canvas = document.getElementById('map') as HTMLCanvasElement;
-
+    function draw(canvas: HTMLCanvasElement) {
         if (!canvas) {
             return;
         }
@@ -241,11 +249,9 @@
         ctx.restore();
     }
 
-    // draw every 100ms
-
 
 </script>
 
-<canvas id="map" class="w-screen h-screen block">
+<canvas class="w-screen h-screen block fixed" id="map" width={canvasWidth} height={canvasHeight}>
     Your browser does not support the HTML5 canvas tag.
 </canvas>
