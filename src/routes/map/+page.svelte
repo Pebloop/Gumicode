@@ -252,6 +252,9 @@
 
 </script>
 
-<canvas class="w-screen h-screen block fixed" id="map" width={canvasWidth} height={canvasHeight}>
+<div class="z-10 relative w-min">
+    <a href="/" class="text-blue-800 hover:text-blue-700 p-2 font-bold text-2xl w-min">Gumicode</a>
+</div>
+<canvas class="w-screen h-screen block fixed top-0 left-0" id="map" width={canvasWidth} height={canvasHeight}>
     Your browser does not support the HTML5 canvas tag.
 </canvas>
