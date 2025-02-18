@@ -59,13 +59,20 @@
         let lastY = 0;
         let hasMoved = false;
 
-        window.addEventListener('mousedown', (event) => {
+        window.addEventListener('mousedown', (event: any) => {
+            if (event.sourceCapabilities.firesTouchEvents == true) {
+                return;
+            }
+
             isDragging = true;
             lastX = event.clientX;
             lastY = event.clientY;
         });
 
-        window.addEventListener('mouseup', () => {
+        window.addEventListener('mouseup', (event: any) => {
+            if (event.sourceCapabilities.firesTouchEvents == true) {
+                return;
+            }
             if (!hasMoved) {
                 // if click on a room
                 if (currentRoom) {
@@ -77,7 +84,11 @@
             hasMoved = false;
         });
 
-        window.addEventListener('mousemove', (event) => {
+        window.addEventListener('mousemove', (event: any) => {
+            if (event.sourceCapabilities.firesTouchEvents == true) {
+                return;
+            }
+
             if (isDragging) {
                 x -= event.clientX - lastX;
                 y -= event.clientY - lastY;
@@ -149,9 +160,10 @@
         });
 
         window.addEventListener('touchend', () => {
+            console.log('touchend');
             if (!hasMovedTouch) {
                 // if click on a room
-                if (currentRoom) {
+                if (currentRoom != null) {
 
                     // if is still clicking on the room
                     let isInside = false;
@@ -180,12 +192,12 @@
                         for (const rect of room.rects) {
                             if (currentX > rect.x && currentX < rect.x + rect.width &&
                                 currentY > rect.y && currentY < rect.y + rect.height) {
-                                currentRoom = room;
                                 isInside = true;
                             }
                         }
 
                         if (isInside) {
+                            currentRoom = room;
                             // draw room
                             const ctx = canvas.getContext('2d');
 
