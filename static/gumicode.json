@@ -1,0 +1,15 @@
+{
+  "name": "Gumicode",
+  "short_name": "GC",
+  "description": "Gumicode is a place to learn code concepts in a fun and interactive way.",
+  "start_url" : "/",
+  "theme_color": "#eeffee",
+  "background_color": "#eeffee",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "favicon.png",
+      "sizes": "128x128"
+    }
+  ]
+}
