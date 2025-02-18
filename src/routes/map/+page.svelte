@@ -60,22 +60,15 @@
         let hasMoved = false;
 
         window.addEventListener('mousedown', (event: any) => {
-            if (event.sourceCapabilities.firesTouchEvents == true) {
-                return;
-            }
-
             isDragging = true;
             lastX = event.clientX;
             lastY = event.clientY;
         });
 
         window.addEventListener('mouseup', (event: any) => {
-            if (event.sourceCapabilities.firesTouchEvents == true) {
-                return;
-            }
             if (!hasMoved) {
                 // if click on a room
-                if (currentRoom) {
+                if (currentRoom && event.sourceCapabilities.firesTouchEvents == false) {
                     document.location.href = currentRoom.url;
                 }
             }
@@ -85,10 +78,6 @@
         });
 
         window.addEventListener('mousemove', (event: any) => {
-            if (event.sourceCapabilities.firesTouchEvents == true) {
-                return;
-            }
-
             if (isDragging) {
                 x -= event.clientX - lastX;
                 y -= event.clientY - lastY;
