@@ -54,6 +54,7 @@
 		"@oslojs/encoding": "^1.1.0",
 		"drizzle-orm": "^0.38.4",
 		"postgres": "^3.4.5",
+		"svelte-highlight": "^7.8.2",
 		"swiper": "^11.2.4"
 	},
 	"pnpm": {

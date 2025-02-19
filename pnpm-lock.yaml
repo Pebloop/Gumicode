@@ -23,6 +23,9 @@ dependencies:
   postgres:
     specifier: ^3.4.5
     version: 3.4.5
+  svelte-highlight:
+    specifier: ^7.8.2
+    version: 7.8.2
   swiper:
     specifier: ^11.2.4
     version: 11.2.4
@@ -2651,6 +2654,11 @@ packages:
       function-bind: 1.1.2
     dev: true
 
+  /highlight.js@11.11.1:
+    resolution: {integrity: sha512-Xwwo44whKBVCYoliBQwaPvtd/2tYFkRQtXDWj1nackaV2JPXx3L0+Jvd8/qCJ2p+ML0/XVkJ2q+Mr+UVdpJK5w==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /html-encoding-sniffer@4.0.0:
     resolution: {integrity: sha512-Y22oTqIU4uuPgEemfz7NDJz6OeKf12Lsu+QC+s3BVpda64lTiMYCyGwg5ki4vFxkMwQdeZDl2adZoqUgdFuTgQ==}
     engines: {node: '>=18'}
@@ -3516,6 +3524,12 @@ packages:
       postcss-scss: 4.0.9(postcss@8.5.2)
       svelte: 5.20.1
     dev: true
+
+  /svelte-highlight@7.8.2:
+    resolution: {integrity: sha512-fJZOQtI71CIAOzv43h/cHVDABB3YfWFERGxZx4RisBVHjEuJXfnrrEOhPS0iE2uZUFyQKDWZyzPlcYyBAkH2iA==}
+    dependencies:
+      highlight.js: 11.11.1
+    dev: false
 
   /svelte@5.20.1:
     resolution: {integrity: sha512-aCARru2WTdzJl55Ws8SK27+kvQwd8tijl4kY7NoDUXUHtTHhxMa8Lf6QNZKmU7cuPu3jjFloDO1j5HgYJNIIWg==}
