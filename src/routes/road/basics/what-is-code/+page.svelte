@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Swiper from 'swiper';
-    import 'swiper/css';
     import {onMount} from "svelte";
+    import {createSwiper} from "$lib/utils/LessonSwipper";
+    import Header from "$lib/components/Header.svelte";
 
     let page = 0;
     if (typeof window !== 'undefined') {
@@ -10,26 +10,18 @@
     }
 
     onMount(() => {
-        const swiper = new Swiper('.swiper', {
-            direction: "vertical",
-            height: window.innerHeight - 73,
-            autoHeight: true,
+        createSwiper({
             initialSlide: page,
-            on: {
-                reachEnd: (sw) => {
-                    document.location.href = '/road/beginner/001-what-is-a-function';
-                }
-            }
-
+            after: "road/basics/variables",
         });
     });
 
 </script>
 
-<div>
-    <h1 class="text-2xl font-bold m-5 text-end">What is a variable?</h1>
-    <hr>
-</div>
+<Header road="/road/basics" direction="horizontal" />
+
+<h1 class="text-2xl font-bold m-5 text-end absolute top-0 right-0">What is code?</h1>
+<hr class="m-5 text-blue-900" />
 
 <div class="swiper">
     <div class="swiper-wrapper">
