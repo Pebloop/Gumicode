@@ -4,12 +4,11 @@
     import Header from "$lib/components/Header.svelte";
 
     let page = 0;
-    if (typeof window !== 'undefined') {
-        const urlParams = new URLSearchParams(window.location.search);
-        page = parseInt(urlParams.get('page') ?? '0');
-    }
 
     onMount(() => {
+        const urlParams = new URLSearchParams(window.location.search);
+        page = parseInt(urlParams.get('page') ?? '0');
+
         createSwiper({
             initialSlide: page,
             after: "road/basics/variables",
@@ -20,9 +19,13 @@
 
 <Header road="/road/basics" direction="horizontal" />
 
-<h1 class="text-2xl font-bold m-5 text-end absolute top-0 right-0">What is code?</h1>
+<div class="w-screen h-screen block fixed top-0 left-0" id="map">
+<h1 class="text-2xl font-bold m-3 max-md:mt-16 max-md:text-center text-end">What is code?</h1>
 <hr class="m-5 text-blue-900" />
+</div>
 
+<div class="max-md:mt-32 mt-16">
+</div>
 <div class="swiper">
     <div class="swiper-wrapper">
 
